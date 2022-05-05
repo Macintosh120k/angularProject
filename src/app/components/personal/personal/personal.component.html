@@ -1,0 +1,184 @@
+<div class="container">
+  <div class="row">
+    <div class="col-6">
+      <h3>Personal</h3>
+    </div>
+    <div class="col-6 text-end">
+      <button
+        *ngIf="idForm == 0"
+        type="button"
+        class="btn btn-success me-1"
+        (click)="guardar()"
+      >
+        <i class="fas fa-save"></i> Guardar
+      </button>
+      <button
+        *ngIf="idForm > 0"
+        type="button"
+        class="btn btn-success me-1"
+        (click)="editar()"
+      >
+        <i class="fas fa-edit"></i> Editar
+      </button>
+      <button
+        *ngIf="idForm > 0"
+        type="button"
+        class="btn btn-danger me-1"
+        (click)="eliminar()"
+      >
+        <i class="fas fa-trash"></i> Eliminar
+      </button>
+      <button type="button" class="btn btn-info" (click)="cerrar()">
+        <i class="fas fa-door-open"></i> Cerrar
+      </button>
+    </div>
+  </div>
+  <form [formGroup]="fbFormulario" action="">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-ms-12 col-md-8">
+            <div class="row">
+              <div class="col-sm-12 col-md-3">
+                <div class="form-grou">
+                  <label for="">Nº Doc. Identidad</label>
+                  <div class="input-group">
+                    <input
+                      type="text"
+                      class="form-control form-control-sm"
+                      formControlName="nroDi"
+                      style="text-align: right"
+                      (keydown.enter)="buscarPorSunat()"
+                      maxlength="8"
+                    />
+                    <div class="input-group-append">
+                      <ng-container *ngIf="btnSearchSunat; else elseTemplate2">
+                        <button
+                          type="button"
+                          (click)="buscarPorSunat()"
+                          class="btn btn-sm btn-success"
+                        >
+                          <i class="fa fa-search"></i>
+                        </button>
+                      </ng-container>
+                      <ng-template #elseTemplate2>
+                        <button
+                          class="btn btn-danger btn-sm"
+                          type="button"
+                          (click)="nuevaBusquedaSunat()"
+                        >
+                          <i class="fa fa-window-close fa-lg"></i>
+                        </button>
+                      </ng-template>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-3">
+                <div class="form-grou">
+                  <label for="">Nombres</label>
+                  <input
+                    type="text"
+                    class="form-control form-control-sm"
+                    formControlName="nombres"
+                    style="text-transform: uppercase;"
+                  />
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-3">
+                <div class="form-grou">
+                  <label for="">Apellido Paterno</label>
+                  <input
+                    type="text"
+                    class="form-control form-control-sm"
+                    formControlName="apellidoPaterno"
+                    style="text-transform: uppercase;"
+                  />
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-3">
+                <div class="form-grou">
+                  <label for="">Apellido Materno</label>
+                  <input
+                    type="text"
+                    class="form-control form-control-sm"
+                    formControlName="apellidoMaterno"
+                    style="text-transform: uppercase;"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12 col-md-6">
+                <div class="form-grou">
+                  <label for="">Direccion</label>
+                  <input
+                    type="text"
+                    class="form-control form-control-sm"
+                    formControlName="direccion"
+                  />
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-3">
+                <div class="form-grou">
+                  <label for="">Telefono</label>
+                  <input
+                    type="text"
+                    class="form-control form-control-sm"
+                    formControlName="telefono"
+                  />
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-3">
+                <div class="form-grou">
+                  <label for="">Genero</label>
+                  <select
+                    class="form-control form-control-sm"
+                    formControlName="genero"
+                  >
+                    <option value="" hidden selected>--Seleccione--</option>
+                    <option value="M">Masculino</option>
+                    <option value="F">Femenino</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12 col-md-3">
+                <div class="form-grou">
+                  <label for="">Fecha Registro</label>
+                  <input
+                    type="date"
+                    class="form-control form-control-sm"
+                    formControlName="fechaRegistro"
+                  />
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-3">
+                <div class="form-grou">
+                  <label for="">Especialidad</label>
+                  <input
+                    type="text"
+                    class="form-control form-control-sm"
+                    formControlName="especialidad"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-ms-12 col-md-4 text-center">
+            <div class="form-group">
+              <img [src]="imagenItem" alt="" width="175" height="175" />
+              <input
+                type="file"
+                class="form-control-file"
+                id="exampleFormControlFile1"
+                (change)="onFileChange($event)"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
