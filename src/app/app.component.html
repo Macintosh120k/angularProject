@@ -31,7 +31,12 @@
         >
       </li>
       <li class="nav-item">
-        <a class="nav-link" (click)="selectItem('personalList')">Personal</a>
+        <a
+          class="nav-link"
+          (click)="selectItem('personalList')"
+          style="cursor: pointer"
+          >Personal</a
+        >
       </li>
       <li
         class="nav-item dropdown"
@@ -45,9 +50,7 @@
           aria-labelledby="navbarDropdownMenuLink"
         >
           <a class="dropdown-item" (click)="selectItem('alumnoList')">Action</a>
-          <a class="dropdown-item" (click)="selectItem('')"
-            >Another action</a
-          >
+          <a class="dropdown-item" (click)="selectItem('')">Another action</a>
           <a class="dropdown-item" (click)="selectItem('')"
             >Something else here</a
           >

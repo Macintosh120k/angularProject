@@ -10,6 +10,7 @@ export class Personal {
     nombres:string;
     apellidoPaterno:string;
     apellidoMaterno:string
+    nombreImg:string
     constructor(){
         this.idPersonal = 0;
         this.nroDi = '';
@@ -21,6 +22,7 @@ export class Personal {
         this.fechaRegistro = null;
         this.nombres = '';
         this.apellidoPaterno = '';
+        this.apellidoMaterno = '';
         this.apellidoMaterno = '';
     }
 }

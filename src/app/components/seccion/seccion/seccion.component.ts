@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Seccion } from '../../models/seccion';
 import { AppServiceService } from '../../services/app-service.service';
-
+import Swal from 'sweetalert2'
 @Component({
   selector: 'app-seccion',
   templateUrl: './seccion.component.html',
@@ -41,6 +41,9 @@ export class SeccionComponent implements OnInit {
     this.appService.getID('secciones',this.idForm).subscribe((res: any) => {
       const item = res[0];
       this.fbFormulario.get('nombreSeccion').setValue(item.nombreSeccion);
+    },
+    (error: any) => {
+      this.alertas('Error!', JSON.stringify(error.error), 'error');
     });
   }
   colectData() {
@@ -51,12 +54,18 @@ export class SeccionComponent implements OnInit {
     this.colectData();
     this.appService.create('secciones',this.insertForm).subscribe((res: any) => {
       this.cerrar();
+    },
+    (error: any) => {
+      this.alertas('Error!', JSON.stringify(error.error), 'error');
     });
   }
   editar() {
     this.colectData();
     this.appService.update('secciones',this.insertForm).subscribe((res: any) => {
       this.cerrar();
+    },
+    (error: any) => {
+      this.alertas('Error!', JSON.stringify(error.error), 'error');
     });
   }
   eliminar() {
@@ -74,5 +83,12 @@ export class SeccionComponent implements OnInit {
   }
   cerrar() {
     this.router.navigate(['/seccionList']);
+  }
+  alertas(type, text, icon) {
+    Swal.fire({
+      title: type,
+      text: text,
+      icon: icon,
+    });
   }
 }

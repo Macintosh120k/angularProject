@@ -18,7 +18,7 @@ export class PersonalComponent implements OnInit {
   idForm: any = 0;
   estadoForm: any;
   //IMAGEN
-  nombreArchivo: any = "Seleccione un Archivo";
+  nombreArchivo: any = "Seleccionar Imagen";
   image: File = null;
   imagenItem: any = "";
   conImagen: boolean = false;
@@ -39,6 +39,7 @@ export class PersonalComponent implements OnInit {
       this.estadoForm = 'nuevo';
     } else {
       this.estadoForm = 'ver';
+      this.fbFormulario.disable()
       this.obtenerDatos();
     }   
     // this.observService.spinner$.emit(true);
@@ -81,6 +82,9 @@ export class PersonalComponent implements OnInit {
       this.fbFormulario.get('especialidad').setValue(item.especialidad)
       this.fbFormulario.get('fechaRegistro').setValue(item.fechaRegistro)
       this.imagenItem = item.img;
+      if(String(item.nombreImg).length > 0){
+        this.nombreArchivo = item.nombreImg;
+      }
     });
   }
   colectData() {
@@ -96,6 +100,7 @@ export class PersonalComponent implements OnInit {
     this.insertForm.nombres = this.fbFormulario.get('nombres').value;
     this.insertForm.apellidoPaterno = this.fbFormulario.get('apellidoPaterno').value;
     this.insertForm.apellidoMaterno = this.fbFormulario.get('apellidoMaterno').value;
+    this.insertForm.nombreImg = this.nombreArchivo;
     // console.log(JSON.stringify(this.insertForm))
   }
   guardar() {
@@ -140,11 +145,6 @@ export class PersonalComponent implements OnInit {
   }
   onFileChange(e: any) {
     this.image = <File>e.target.files[0];
-    this.nombreArchivo = this.image.name;
-    // if (this.image.type != 'image/jpeg') {
-    //   this.alertas('Archivo no permitido', 'Solo se permiten imagenes .JPG', 'error', 'btn');
-    //   return;
-    // }
     if (this.image.size >= 5024000) {
       this.alertas(
         "Imagen demasiado grande",
@@ -153,6 +153,7 @@ export class PersonalComponent implements OnInit {
       );
       return;
     }
+    this.nombreArchivo = this.image.name;
     var reader = new FileReader();
     reader.readAsDataURL(this.image);
     reader.onload = (_event) => {
@@ -160,20 +161,25 @@ export class PersonalComponent implements OnInit {
       this.conImagen = true;
     };
     
-    // if(this.idForm > 0){
-    //   const formData = new FormData();
-    //   formData.append("id", this.idForm);
-    //   if (this.image != null) {
-    //     formData.append("file", <File>this.image, this.image.name);
-    //   }
-    //   this.appService.updateImage('updateImg', formData).subscribe((res: any) => {
-    //     this.alertas('Exito!', res, 'success');
-    //   },
-    //   (error: any) => {
-    //     this.alertas('Error!', JSON.stringify(error.error), 'error');
-    //     this.observService.spinner$.emit(false);
-    //   });
-    // }
+    if(this.idForm > 0){
+      let item = {
+        table:'personal',
+        id: this.idForm,
+        nombreImg: this.nombreArchivo,
+      }
+      const formData = new FormData();
+      formData.append("data", JSON.stringify(item));
+      if (this.image != null) {
+        formData.append("file", <File>this.image, this.image.name);
+      }
+      this.appService.updateImage('updateImg', formData).subscribe((res: any) => {
+        this.alertas('Exito!', res, 'success');
+      },
+      (error: any) => {
+        this.alertas('Error!', JSON.stringify(error.error), 'error');
+        this.observService.spinner$.emit(false);
+      });
+    }
   }
   alertas(type, text, icon) {
     Swal.fire({
@@ -181,6 +187,29 @@ export class PersonalComponent implements OnInit {
       text: text,
       icon: icon,
     });
+  }
+  buscarPersonal(e:any){
+    e.preventDefault();
+    let param = [
+      {clave:'nroDi', valor: this.fbFormulario.get('nroDi').value},
+    ]
+    if(this.fbFormulario.get('nroDi').value.length < 8){
+      this.alertas('Aviso!', 'Debe ingresar un Nro de Documento Valido', 'info');
+      return;
+    }
+    this.observService.spinner$.emit(true);
+    this.appService.getParam('personal',param).subscribe((res:any)=> {
+      if(res.length > 0){
+        this.alertas('Aviso!', 'Esta persona ya esta Registrada en el Sistema', 'info');
+        this.observService.spinner$.emit(false);
+      }else{
+        this.buscarPorSunat();
+      }
+    },
+    (error: any) => {
+      this.alertas('Error!', JSON.stringify(error.error), 'error');
+      this.observService.spinner$.emit(false);
+    })
   }
   buscarPorSunat(){
     this.observService.spinner$.emit(true);

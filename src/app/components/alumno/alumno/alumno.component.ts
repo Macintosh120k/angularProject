@@ -17,7 +17,7 @@ export class AlumnoComponent implements OnInit {
   idForm: any = 0;
   estadoForm: any;
     //IMAGEN
-    nombreArchivo: any = "Seleccione un Archivo";
+    nombreArchivo: any = "Seleccione Imagen";
     image: File = null;
     imagenItem: any = "";
     conImagen: boolean = false;
@@ -65,6 +65,9 @@ export class AlumnoComponent implements OnInit {
       this.fbFormulario.get('ubigeo').setValue(item.ubigeo);
       this.fbFormulario.get('fechaIngreso').setValue(item.fechaIngreso);
       this.imagenItem = item.img;
+      if(String(item.nombreImg).length > 0){
+        this.nombreArchivo = item.nombreImg;
+      }
     });
   }
   colectData() {
@@ -121,11 +124,6 @@ export class AlumnoComponent implements OnInit {
   }
   onFileChange(e: any) {
     this.image = <File>e.target.files[0];
-    this.nombreArchivo = this.image.name;
-    // if (this.image.type != 'image/jpeg') {
-    //   this.alertas('Archivo no permitido', 'Solo se permiten imagenes .JPG', 'error', 'btn');
-    //   return;
-    // }
     if (this.image.size >= 5024000) {
       this.alertas(
         "Imagen demasiado grande",
@@ -134,6 +132,7 @@ export class AlumnoComponent implements OnInit {
       );
       return;
     }
+    this.nombreArchivo = this.image.name;
     var reader = new FileReader();
     reader.readAsDataURL(this.image);
     reader.onload = (_event) => {
@@ -142,8 +141,13 @@ export class AlumnoComponent implements OnInit {
     };
     
     if(this.idForm > 0){
+      let item = {
+        table:'alumno',
+        id: this.idForm,
+        nombreImg: this.nombreArchivo,
+      }
       const formData = new FormData();
-      formData.append("id", this.idForm);
+      formData.append("data", JSON.stringify(item));
       if (this.image != null) {
         formData.append("file", <File>this.image, this.image.name);
       }
@@ -152,6 +156,7 @@ export class AlumnoComponent implements OnInit {
       },
       (error: any) => {
         this.alertas('Error!', JSON.stringify(error.error), 'error');
+        this.observService.spinner$.emit(false);
       });
     }
   }
