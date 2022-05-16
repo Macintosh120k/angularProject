@@ -13,6 +13,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { LoaderComponent } from './components/utiles/loader/loader.component';
 import { PersonalListComponent } from './components/personal/personal-list/personal-list.component';
 import { PersonalComponent } from './components/personal/personal/personal.component';
+import { VistaGaleriaComponent } from './components/galeria/vista-galeria/vista-galeria.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,6 +24,7 @@ import { PersonalComponent } from './components/personal/personal/personal.compo
     LoaderComponent,
     PersonalListComponent,
     PersonalComponent,
+    VistaGaleriaComponent,
   ],
   imports: [
     BrowserModule,

@@ -43,15 +43,15 @@
         (mouseover)="abrirDrop()"
         (mouseout)="cerrarDrop()"
       >
-        <a id="dropMenuBtn" class="nav-link dropdown-toggle"> Dropdown link </a>
+        <a style="cursor: pointer;" id="dropMenuBtn" class="nav-link dropdown-toggle"> Otros </a>
         <div
           id="dropMenuBtn2"
           class="dropdown-menu"
           aria-labelledby="navbarDropdownMenuLink"
         >
-          <a class="dropdown-item" (click)="selectItem('alumnoList')">Action</a>
-          <a class="dropdown-item" (click)="selectItem('')">Another action</a>
-          <a class="dropdown-item" (click)="selectItem('')"
+          <a style="cursor: pointer;" class="dropdown-item" (click)="selectItem('vistaGaleria')">Galeria</a>
+          <a style="cursor: pointer;" class="dropdown-item" (click)="selectItem('')">Another action</a>
+          <a style="cursor: pointer;" class="dropdown-item" (click)="selectItem('')"
             >Something else here</a
           >
         </div>

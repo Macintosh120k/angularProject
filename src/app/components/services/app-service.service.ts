@@ -46,4 +46,7 @@ export class AppServiceService {
   updateImage(api,formData:any){
     return this.http.post('http://localhost/angularPhp/Server/controladores/'+ api +'.php',formData);
   }
+  getImagenes(){
+    return this.http.get(<any>'http://localhost/angularPhp/Server/controladores/galeria.php');
+  }
 }

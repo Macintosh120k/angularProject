@@ -3758,13 +3758,13 @@ fieldset:disabled .btn {
 .dropdown-item:focus,
 .dropdown-item:hover {
   color: #fff;
-  background-color: #3459e6;
+  background-color: #999;
 }
 .dropdown-item.active,
 .dropdown-item:active {
   color: #fff;
   text-decoration: none;
-  background-color: #3459e6;
+  background-color: #999;
 }
 .dropdown-item.disabled,
 .dropdown-item:disabled {
